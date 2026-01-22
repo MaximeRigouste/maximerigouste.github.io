@@ -1,80 +1,610 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="utf-8" />
-    <title>CV Maxime Rigouste</title>
-    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maxime Rigouste - Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0a;
+            color: #e0e0e0;
+            overflow-x: hidden;
+            cursor: none;
+        }
+
+        #cursor {
+            width: 12px;
+            height: 12px;
+            border: 2px solid #00d9ff;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: 0.1s;
+            box-shadow: 0 0 15px rgba(0, 217, 255, 0.5);
+        }
+
+        #cursor-trail {
+            width: 6px;
+            height: 6px;
+            background: #00d9ff;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            transition: 0.2s;
+            opacity: 0.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 100px 20px 80px;
+            position: relative;
+        }
+
+        .profile-img {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            margin: 0 auto 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
+            font-weight: 700;
+            font-family: 'Space Mono', monospace;
+            color: #00d9ff;
+            border: 2px solid #00d9ff;
+            box-shadow: 0 0 30px rgba(0, 217, 255, 0.3);
+            transition: all 0.4s ease;
+        }
+
+        .profile-img:hover {
+            box-shadow: 0 0 50px rgba(0, 217, 255, 0.6);
+            transform: scale(1.05);
+        }
+
+        h1 {
+            font-size: 4em;
+            margin-bottom: 15px;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: -2px;
+            font-family: 'Space Mono', monospace;
+        }
+
+        .subtitle {
+            font-size: 1.3em;
+            color: #00d9ff;
+            margin-bottom: 30px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1em;
+            color: #b0b0b0;
+            padding: 12px 24px;
+            border: 1px solid #333;
+            border-radius: 8px;
+            background: rgba(20, 20, 20, 0.6);
+            transition: all 0.3s;
+            font-family: 'Space Mono', monospace;
+        }
+
+        .contact-item:hover {
+            border-color: #00d9ff;
+            color: #00d9ff;
+            box-shadow: 0 0 20px rgba(0, 217, 255, 0.2);
+        }
+
+        .section {
+            background: rgba(20, 20, 20, 0.6);
+            margin: 50px 0;
+            padding: 50px;
+            border-radius: 12px;
+            border: 1px solid #222;
+            backdrop-filter: blur(10px);
+            transition: all 0.4s ease;
+        }
+
+        .section:hover {
+            border-color: #00d9ff;
+            box-shadow: 0 0 40px rgba(0, 217, 255, 0.15);
+            transform: translateY(-5px);
+        }
+
+        .section-title {
+            font-size: 2em;
+            color: #00d9ff;
+            margin-bottom: 35px;
+            font-weight: 600;
+            letter-spacing: -1px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: #00d9ff;
+            box-shadow: 0 0 10px rgba(0, 217, 255, 0.6);
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .skill-category {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 30px;
+            border-radius: 10px;
+            border: 1px solid #2a2a2a;
+            transition: all 0.3s ease;
+        }
+
+        .skill-category:hover {
+            border-color: #00d9ff;
+            box-shadow: 0 0 25px rgba(0, 217, 255, 0.15);
+            transform: translateY(-3px);
+        }
+
+        .skill-category h3 {
+            color: #ffffff;
+            margin-bottom: 20px;
+            font-size: 1.2em;
+            font-weight: 600;
+            font-family: 'Space Mono', monospace;
+        }
+
+        .skill-tag {
+            display: inline-block;
+            background: rgba(0, 217, 255, 0.1);
+            color: #00d9ff;
+            padding: 8px 16px;
+            margin: 6px 6px 6px 0;
+            border-radius: 6px;
+            font-size: 0.9em;
+            border: 1px solid rgba(0, 217, 255, 0.3);
+            transition: all 0.3s;
+            font-family: 'Space Mono', monospace;
+        }
+
+        .skill-tag:hover {
+            background: rgba(0, 217, 255, 0.2);
+            box-shadow: 0 0 15px rgba(0, 217, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .project {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 30px;
+            margin: 25px 0;
+            border-radius: 10px;
+            border-left: 3px solid #00d9ff;
+            transition: all 0.3s ease;
+        }
+
+        .project:hover {
+            transform: translateX(10px);
+            box-shadow: 0 0 30px rgba(0, 217, 255, 0.15);
+        }
+
+        .project h3 {
+            color: #ffffff;
+            margin-bottom: 12px;
+            font-size: 1.3em;
+            font-weight: 600;
+        }
+
+        .project-date {
+            color: #00d9ff;
+            font-style: italic;
+            margin-bottom: 15px;
+            font-size: 0.9em;
+            font-family: 'Space Mono', monospace;
+        }
+
+        .project ul {
+            list-style: none;
+            color: #b0b0b0;
+            padding-left: 0;
+        }
+
+        .project li {
+            margin: 10px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .project li::before {
+            content: '▹';
+            position: absolute;
+            left: 0;
+            color: #00d9ff;
+        }
+
+        .formation-item {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 30px;
+            margin: 20px 0;
+            border-radius: 10px;
+            border: 1px solid #2a2a2a;
+            transition: all 0.3s ease;
+        }
+
+        .formation-item:hover {
+            border-color: #00d9ff;
+            transform: translateX(10px);
+            box-shadow: 0 0 25px rgba(0, 217, 255, 0.15);
+        }
+
+        .formation-item h3 {
+            color: #ffffff;
+            font-size: 1.3em;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .formation-item p {
+            color: #b0b0b0;
+            line-height: 1.6;
+        }
+
+        .formation-item .date {
+            color: #00d9ff;
+            font-family: 'Space Mono', monospace;
+            margin: 8px 0;
+        }
+
+        .interests {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 25px;
+        }
+
+        .interest-card {
+            background: rgba(0, 0, 0, 0.4);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            min-width: 140px;
+            border: 1px solid #2a2a2a;
+            transition: all 0.3s ease;
+            font-family: 'Space Mono', monospace;
+        }
+
+        .interest-card:hover {
+            border-color: #00d9ff;
+            box-shadow: 0 0 30px rgba(0, 217, 255, 0.2);
+            transform: translateY(-5px);
+        }
+
+        .interest-card .title {
+            font-size: 1.1em;
+            color: #00d9ff;
+        }
+
+        .languages {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .language {
+            background: rgba(0, 217, 255, 0.1);
+            color: #00d9ff;
+            padding: 20px 40px;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 600;
+            border: 1px solid rgba(0, 217, 255, 0.3);
+            transition: all 0.3s ease;
+            font-family: 'Space Mono', monospace;
+        }
+
+        .language:hover {
+            background: rgba(0, 217, 255, 0.2);
+            box-shadow: 0 0 25px rgba(0, 217, 255, 0.3);
+            transform: translateY(-3px);
+        }
+
+        .soft-skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .soft-skill-card {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 25px;
+            border-radius: 10px;
+            border: 1px solid #2a2a2a;
+            transition: all 0.3s ease;
+        }
+
+        .soft-skill-card:hover {
+            border-color: #00d9ff;
+            box-shadow: 0 0 25px rgba(0, 217, 255, 0.15);
+        }
+
+        .soft-skill-card h3 {
+            color: #ffffff;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+            font-family: 'Space Mono', monospace;
+        }
+
+        .soft-skill-card p {
+            color: #b0b0b0;
+            line-height: 1.6;
+        }
+
+        footer {
+            text-align: center;
+            padding: 60px 20px;
+            color: #00d9ff;
+            font-size: 1.1em;
+        }
+
+        footer p {
+            margin: 10px 0;
+        }
+
+        footer .cta {
+            font-weight: 600;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5em;
+            }
+            .section {
+                padding: 30px;
+            }
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div id="cv-container">
-        <div id="left-panel">
-            <img src="MAX.jpg" alt="Photo de Maxime Rigouste" id="profile-photo">
-            <p><strong>Date de naissance :</strong> 03 Janvier 2006 (18 ans)</p>
-            <p><strong>Statut :</strong> Jeune conducteur</p>
+    <div id="cursor"></div>
+    <div id="cursor-trail"></div>
 
-            <section id="sports">
-                <h2>SPORTS</h2>
-                <ul>
-                    <li>Judo (5 ans)</li>
-                    <li>Football (1 an)</li>
-                    <li>Basketball (2 ans)</li>
-                    <li>Tennis de table (2 ans)</li>
-                    <li>Badminton (3 ans)</li>
-                </ul>
-            </section>
+    <div class="container">
+        <header>
+            <div class="profile-img">MR</div>
+            <h1>MAXIME RIGOUSTE</h1>
+            <p class="subtitle">Étudiant en BUT Informatique</p>
+            <div class="contact-info">
+                <div class="contact-item">maxime.rigouste@gmail.com</div>
+                <div class="contact-item">07.82.73.54.61</div>
+                <div class="contact-item">Gagnac sur Garonne</div>
+            </div>
+        </header>
 
-            <section id="interests">
-                <h2>CENTRES D'INTERÊTS</h2>
-                <p>Voyages : Ile-Maurice, La Réunion, Guadeloupe, Canada, Espagne, Royaume-Uni</p>
-                <p>Cinéma, Piano</p>
-            </section>
-
-            <section id="languages">
-                <h2>LANGUES</h2>
-                <p>Espagnol (B1)</p>
-                <p>Anglais (C1)</p>
-            </section>
-
-            <section id="diplomas">
-                <h2>DIPLÔMES</h2>
-                <p>Brevet des collèges (mention : Très bien)</p>
-                <p>Permis B (Août 2023)</p>
-            </section>
+        <div class="section">
+            <h2 class="section-title">Profil</h2>
+            <p style="font-size: 1.1em; line-height: 1.8; color: #b0b0b0;">
+                Actuellement en 2ème année de BUT Informatique à l'IUT de Blagnac (Université Toulouse Jean Jaurès), 
+                je recherche un <strong style="color: #00d9ff;">stage en informatique du 2 mars au 15 mai 2026</strong>. 
+                Passionné par le développement et les nouvelles technologies, je suis rigoureux, curieux et motivé 
+                à mettre en pratique mes compétences au sein d'une équipe dynamique.
+            </p>
         </div>
 
-        <div id="right-panel">
-            <header>
-                <h1>MAXIME RIGOUSTE.</h1>
-                <h2>Étudiant</h2>
-                <p>Disponibilités : Année 2025 - 2026</p>
-            </header>
-
-            <section id="contact">
-                <h2>CONTACT</h2>
-                <p>📞 07.82.73.54.61</p>
-                <p>✉️ maxime.rigouste@gmail.com</p>
-                <p>🏠 41 Rue de Pessoles, Appt A201, 31150 Gagnac-sur-Garonne</p>
-            </section>
-
-            <section id="qualifications">
-                <h2>QUALIFICATIONS</h2>
-                <p>Stage professionnel troisième - Janvier 2021 (pharmacie Aussonne)</p>
-                <h3>Compétences numériques :</h3>
-                <ul>
-                    <li>MAC/WINDOWS</li>
-                    <li>Microsoft Word / Excel</li>
-                    <li>PowerPoint</li>
-                    <li>Photoshop</li>
-                    <li>Réseaux sociaux</li>
-                </ul>
-            </section>
-
-            <section id="formation">
-                <h2>FORMATION</h2>
-                <p>Baccalauréat général (en cours)</p>
-                <p>Spécialités : Mathématiques, Anglais Monde Contemporain, Numérique et Sciences Informatiques.</p>
-            </section>
+        <div class="section">
+            <h2 class="section-title">Compétences Techniques</h2>
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h3>Développement</h3>
+                    <span class="skill-tag">Java</span>
+                    <span class="skill-tag">Python</span>
+                    <span class="skill-tag">C</span>
+                </div>
+                <div class="skill-category">
+                    <h3>Web</h3>
+                    <span class="skill-tag">HTML</span>
+                    <span class="skill-tag">CSS</span>
+                </div>
+                <div class="skill-category">
+                    <h3>Bases de données</h3>
+                    <span class="skill-tag">Oracle SQL</span>
+                    <span class="skill-tag">MySQL</span>
+                </div>
+                <div class="skill-category">
+                    <h3>Système</h3>
+                    <span class="skill-tag">Unix</span>
+                    <span class="skill-tag">Linux</span>
+                    <span class="skill-tag">Bash</span>
+                </div>
+                <div class="skill-category">
+                    <h3>Méthodes</h3>
+                    <span class="skill-tag">UML</span>
+                    <span class="skill-tag">Gestion de Projet</span>
+                </div>
+            </div>
         </div>
+
+        <div class="section">
+            <h2 class="section-title">Projets Universitaires</h2>
+            
+            <div class="project">
+                <h3>Jeu de la Vie</h3>
+                <p class="project-date">Janvier 2025</p>
+                <ul>
+                    <li>Organiser un travail d'équipe</li>
+                    <li>Programmer avec rigueur en Java</li>
+                    <li>Comprendre du code élaboré</li>
+                </ul>
+            </div>
+
+            <div class="project">
+                <h3>Simuland - Jeu de création d'entreprise</h3>
+                <p class="project-date">Décembre 2024</p>
+                <ul>
+                    <li>Gérer des finances</li>
+                    <li>Prendre des décisions et des initiatives</li>
+                    <li>S'adapter à des événements inattendus</li>
+                </ul>
+            </div>
+
+            <div class="project">
+                <h3>Application de création de course canoë</h3>
+                <p class="project-date">Octobre 2024</p>
+                <ul>
+                    <li>Respecter un cahier des charges</li>
+                    <li>Développer en Java</li>
+                    <li>Implémentation d'un besoin client</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">Formation</h2>
+            
+            <div class="formation-item">
+                <h3>BUT Informatique</h3>
+                <p><strong>IUT de Blagnac</strong> - Université Toulouse Jean Jaurès</p>
+                <p class="date">2024 - 2027</p>
+            </div>
+
+            <div class="formation-item">
+                <h3>Baccalauréat Général - Mention Assez Bien</h3>
+                <p><strong>Lycée Saint-Exupéry, Blagnac</strong></p>
+                <p class="date">2021 - 2024</p>
+                <p style="margin-top: 10px;">Spécialités : Mathématiques & NSI</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">Compétences Transversales</h2>
+            <div class="soft-skills-grid">
+                <div class="soft-skill-card">
+                    <h3>Gestion de Projet</h3>
+                    <p>Coordination et suivi des tâches, sens des priorités</p>
+                </div>
+                <div class="soft-skill-card">
+                    <h3>Communication</h3>
+                    <p>Création de présentations, gestion des relations client, rédaction de compte rendu</p>
+                </div>
+                <div class="soft-skill-card">
+                    <h3>Savoir-être</h3>
+                    <p>Discipliné, Curieux, Sérieux</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">Expérience Professionnelle</h2>
+            <div class="project">
+                <h3>Caissier - Intermarché</h3>
+                <p class="project-date">Été 2024</p>
+                <p style="margin-top: 10px; color: #b0b0b0;">Gestion de la caisse, service client, travail en équipe</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">Langues</h2>
+            <div class="languages">
+                <div class="language">Anglais - C1</div>
+                <div class="language">Espagnol - B1</div>
+            </div>
+            <p style="text-align: center; margin-top: 30px; font-size: 1.1em; color: #b0b0b0;">Permis B</p>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">Centres d'Intérêt</h2>
+            <div class="interests">
+                <div class="interest-card">
+                    <div class="title">Musique</div>
+                </div>
+                <div class="interest-card">
+                    <div class="title">Piano</div>
+                </div>
+                <div class="interest-card">
+                    <div class="title">Échecs</div>
+                </div>
+                <div class="interest-card">
+                    <div class="title">Jeux Vidéos</div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p class="cta">Disponible pour un stage du 2 mars au 15 mai 2026</p>
+            <p>Contactez-moi pour échanger sur vos opportunités</p>
+        </footer>
     </div>
+
+    <script>
+        const cursor = document.getElementById('cursor');
+        const cursorTrail = document.getElementById('cursor-trail');
+        
+        let mouseX = 0;
+        let mouseY = 0;
+        let trailX = 0;
+        let trailY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            
+            cursor.style.left = mouseX + 'px';
+            cursor.style.top = mouseY + 'px';
+        });
+
+        function animateTrail() {
+            trailX += (mouseX - trailX) * 0.2;
+            trailY += (mouseY - trailY) * 0.2;
+            
+            cursorTrail.style.left = trailX + 'px';
+            cursorTrail.style.top = trailY + 'px';
+            
+            requestAnimationFrame(animateTrail);
+        }
+        
+        animateTrail();
+    </script>
 </body>
 </html>
